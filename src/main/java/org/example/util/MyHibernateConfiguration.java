@@ -8,6 +8,8 @@ import org.example.entityManyToOne.Employee;
 import org.example.entityManyToOne.EmployeeDepartment;
 import org.example.entityOneToMany.Product;
 import org.example.entityOneToMany.ProductType;
+import org.example.entityOneToOne.SocialMediaUser;
+import org.example.entityOneToOne.UserProfile;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -20,9 +22,10 @@ public class MyHibernateConfiguration {
 //        configuration.addAnnotatedClass(Employee.class);
 //        configuration.addAnnotatedClass(EmployeeDepartment.class);
 
-        configuration.addAnnotatedClass(Product.class);
-        configuration.addAnnotatedClass(ProductType.class);
-
+//        configuration.addAnnotatedClass(Product.class);
+//        configuration.addAnnotatedClass(ProductType.class);
+        configuration.addAnnotatedClass(SocialMediaUser.class);
+        configuration.addAnnotatedClass(UserProfile.class);
 
         // convert Birthday class -> SQL Format
         configuration.addAttributeConverter(new BirthdayConverter());

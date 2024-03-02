@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entityOneToMany;
 
 
 import lombok.Cleanup;
@@ -17,26 +17,22 @@ public class HibernateRunner {
 
 
     public static void main(String[] args) {
-        ProductType productType = ProductType.builder()
-                .productTypeName("MOBILE")
-                .build();
+
 
         Product product = Product.builder()
-                .productName("Samsung S22")
-                .price(1990)
+                .productName("Apple Iphone")
+                .price(3400)
                 .build();
-        productType.addToProductTypeList(product);
         try {
             @Cleanup SessionFactory sessionFactory = MyHibernateConfiguration.buildSessionFactory();
             @Cleanup Session session = sessionFactory.openSession();
             session.beginTransaction();
-//            Product product = Product.builder()
-//                    .productName("Apple Iphone 14")
-//                    .price(3500)
-//                    .productType(productType)
-//                    .build();
+
+            ProductType productType = session.get(ProductType.class, 1);
 //            productType.addToProductTypeList(product);
-            session.persist(productType);
+//            session.persist(productType);
+            productType.getListOfProducts()
+                    .removeIf(prod -> prod.getProductId() == 1);
             session.getTransaction().commit();
         }catch (Exception exception){
             log.error("Error occurred. ", exception);

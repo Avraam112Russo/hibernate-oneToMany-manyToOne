@@ -23,7 +23,12 @@ public class ProductType {
     private Integer productTypeId;
     @Column(name = "product_type_name")
     private String productTypeName;
-    @OneToMany(mappedBy = "productType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "productType",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true // deleted product from database if we remove him from our collection listOfProducts
+    )
     @Builder.Default
     private Set<Product> listOfProducts = new HashSet<>();
 
