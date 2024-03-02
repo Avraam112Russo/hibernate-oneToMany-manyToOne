@@ -1,0 +1,34 @@
+package org.example.entityOneToMany;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Entity
+@Table(name = "product_types")
+@Data
+@AllArgsConstructor
+// HashSet call equalsAndHasCode -> Enter in product field -> again call ProductType -> again HashSet call equalsAndHasCode -> stackOverFlow
+@EqualsAndHashCode(of = "productTypeName") // only this field
+@NoArgsConstructor
+@Builder
+@ToString(exclude = "listOfProducts")
+public class ProductType {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_type_id")
+    private Integer productTypeId;
+    @Column(name = "product_type_name")
+    private String productTypeName;
+    @OneToMany(mappedBy = "productType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<Product> listOfProducts = new HashSet<>();
+
+    public void addToProductTypeList(Product product){
+        listOfProducts.add(product);
+        product.setProductType(this);
+    }
+}
