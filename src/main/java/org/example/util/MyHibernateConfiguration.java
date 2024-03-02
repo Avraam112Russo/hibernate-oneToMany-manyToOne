@@ -1,15 +1,12 @@
 package org.example.util;
 
 import lombok.experimental.UtilityClass;
-import org.example.entity.UserEntity;
+import org.example.entityOneToOne.test.BankCredential;
+import org.example.entityOneToOne.test.NewEmployee;
 import org.example.entity.converter.BirthdayConverter;
 import org.example.entity.converter.DepartmentConverter;
-import org.example.entityManyToOne.Employee;
-import org.example.entityManyToOne.EmployeeDepartment;
-import org.example.entityOneToMany.Product;
-import org.example.entityOneToMany.ProductType;
-import org.example.entityOneToOne.SocialMediaUser;
-import org.example.entityOneToOne.UserProfile;
+import org.example.manyToMany.MyChat;
+import org.example.manyToMany.MyUser;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -20,13 +17,12 @@ public class MyHibernateConfiguration {
         // we indicated which class hibernate can mapping
 //        configuration.addAnnotatedClass(UserEntity.class);
 //        configuration.addAnnotatedClass(Employee.class);
-//        configuration.addAnnotatedClass(EmployeeDepartment.class);
 
-//        configuration.addAnnotatedClass(Product.class);
-//        configuration.addAnnotatedClass(ProductType.class);
-        configuration.addAnnotatedClass(SocialMediaUser.class);
-        configuration.addAnnotatedClass(UserProfile.class);
-
+//        configuration.addAnnotatedClass(NewEmployee.class);
+//        configuration.addAnnotatedClass(BankCredential.class);
+//
+        configuration.addAnnotatedClass(MyUser.class);
+        configuration.addAnnotatedClass(MyChat.class);
         // convert Birthday class -> SQL Format
         configuration.addAttributeConverter(new BirthdayConverter());
         configuration.addAttributeConverter(new DepartmentConverter());
