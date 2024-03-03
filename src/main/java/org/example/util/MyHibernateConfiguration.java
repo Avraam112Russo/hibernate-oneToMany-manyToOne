@@ -1,12 +1,10 @@
 package org.example.util;
 
 import lombok.experimental.UtilityClass;
-import org.example.entityOneToOne.test.BankCredential;
-import org.example.entityOneToOne.test.NewEmployee;
+import org.example.orderBy.MyDepartment;
+import org.example.orderBy.MyEmployee;
 import org.example.entity.converter.BirthdayConverter;
 import org.example.entity.converter.DepartmentConverter;
-import org.example.manyToMany.MyChat;
-import org.example.manyToMany.MyUser;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -21,8 +19,17 @@ public class MyHibernateConfiguration {
 //        configuration.addAnnotatedClass(NewEmployee.class);
 //        configuration.addAnnotatedClass(BankCredential.class);
 //
-        configuration.addAnnotatedClass(MyUser.class);
-        configuration.addAnnotatedClass(MyChat.class);
+//        configuration.addAnnotatedClass(MyUser.class);
+//        configuration.addAnnotatedClass(MyChat.class);
+
+//        configuration.addAnnotatedClass(User.class);
+//        configuration.addAnnotatedClass(Chat.class);
+//        configuration.addAnnotatedClass(UsersChats.class);
+
+
+        configuration.addAnnotatedClass(MyEmployee.class);
+        configuration.addAnnotatedClass(MyDepartment.class);
+
         // convert Birthday class -> SQL Format
         configuration.addAttributeConverter(new BirthdayConverter());
         configuration.addAttributeConverter(new DepartmentConverter());

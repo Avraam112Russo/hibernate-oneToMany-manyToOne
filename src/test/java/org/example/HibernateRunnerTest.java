@@ -4,9 +4,13 @@ import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.UserEntity;
 import org.example.entityOneToMany.ProductType;
+import org.example.orderBy.MyDepartment;
+import org.example.orderBy.MyEmployee;
 import org.example.util.MyHibernateConfiguration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
@@ -65,12 +69,43 @@ class HibernateRunnerTest {
     }
 
     @Test
-    public void getProductTypeTest(){
+    void getProductTypeTest(){
         @Cleanup SessionFactory sessionFactory = MyHibernateConfiguration.buildSessionFactory();
         @Cleanup Session session = sessionFactory.openSession();
 
         ProductType productType = session.get(ProductType.class, 1);
         log.info("Fetch product type: {}", productType);
         log.info("Fetch products: {}", productType.getListOfProducts());
+    }
+    @Test
+    void saveMyDepartmentTest(){
+        try {
+            Configuration configuration = new Configuration();
+            configuration.addAnnotatedClass(MyDepartment.class);
+            configuration.addAnnotatedClass(MyEmployee.class);
+            configuration.configure();
+            @Cleanup SessionFactory sessionFactory = configuration.buildSessionFactory();
+            @Cleanup Session session = sessionFactory.openSession();
+
+            session.beginTransaction();
+
+            MyDepartment department = MyDepartment.builder()
+                    .name("PR")
+                    .build();
+            MyEmployee employee = MyEmployee.builder()
+                    .name("Russo")
+                    .build();
+            department.addEmployeeToDepartment(employee);
+            session.persist(department);
+
+
+            log.info("================================================");
+            log.info("Saved department: {}", session.get(MyDepartment.class, department.getId()).toString());
+            log.info("Saved employee: {}", session.get(MyEmployee.class, employee.getId()));
+            Assertions.assertEquals(1, session.get(MyDepartment.class, department.getId()).getId());
+            session.getTransaction().commit();
+        }catch (Exception exception){
+            log.error("Error occurred: ", exception);
+        }
     }
 }
